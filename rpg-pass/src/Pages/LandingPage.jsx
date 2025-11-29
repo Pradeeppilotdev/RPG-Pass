@@ -1,12 +1,34 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { usePrivy } from '@privy-io/react-auth';
 import "../PageStyles/LandingPage.css";
 
 import logo from "../assets/logo.png";
 
 const LandingPage = () => {
-  const handleConnect = () => {
-    console.log("Trigger Privy Login");
+  const navigate = useNavigate();
+  const { login, ready, authenticated } = usePrivy();
+
+  const handleConnect = async () => {
+    if (!ready) return;
+    
+    if (authenticated) {
+      // Already authenticated, navigate to dashboard
+      navigate('/dash');
+    } else {
+      // Trigger Privy login
+      await login();
+      // After successful login, navigate to dashboard
+      navigate('/dash');
+    }
   };
+
+  // Redirect if already authenticated
+  React.useEffect(() => {
+    if (ready && authenticated) {
+      navigate('/dash');
+    }
+  }, [ready, authenticated, navigate]);
 
   return (
     <div className="landing-container">

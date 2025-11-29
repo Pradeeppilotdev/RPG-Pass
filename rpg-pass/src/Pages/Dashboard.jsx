@@ -167,6 +167,9 @@ const Dashboard = () => {
             <div className="profile-info">
               <span className="label">IDENTITY</span>
               <span className="value mono">{walletDisplay}</span>
+              <button className="disconnect-btn-mobile" onClick={logout}>
+                Disconnect
+              </button>
             </div>
           </div>
 
